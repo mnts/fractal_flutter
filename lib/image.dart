@@ -3,12 +3,13 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fractal/lib.dart';
 import 'package:fractal/types/file.dart';
+import 'package:fractal/types/image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FractalImage extends StatefulWidget {
-  final String hash;
+  final FileF file;
   const FractalImage(
-    this.hash, {
+    this.file, {
     super.key,
   });
 
@@ -72,32 +73,20 @@ class FractalImage extends StatefulWidget {
 }
 
 class _FractalImageState extends State<FractalImage> {
-  FileF? file;
-  String get hash => widget.hash.trim();
   Image? image;
 
   initImage() async {
-    if (hash.isEmpty) return;
-    file = FileF(hash);
     setState(() async {
-      final bytes = await file!.load();
+      final bytes = await widget.file.load();
       image = Image.memory(bytes);
     });
   }
 
-  Uri getUri() {
-    final uri = Uri.parse(hash);
-    if (uri.scheme.isEmpty) {
-      return Uri.parse(
-        FileF.urlImage(hash),
-      );
-    }
-    return uri;
-  }
-
   openFile() {
     //if (widget.event == null || widget.event!.file.isEmpty) return;
-    final uri = getUri();
+    final uri = Uri.parse(
+      widget.file.url,
+    );
     launchUrl(uri);
   }
 

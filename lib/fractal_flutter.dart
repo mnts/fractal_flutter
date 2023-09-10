@@ -128,11 +128,6 @@ typedef ValueWidgetBuilder = Widget Function(
 ///  * [StreamBuilder], where a builder can depend on a [Stream] rather than
 ///    a [ValueListenable] for more advanced use cases.
 class Listen<T> extends StatefulWidget {
-  /// Creates a [ValueListenableBuilder].
-  ///
-  /// The [valueListenable] and [builder] arguments must not be null.
-  /// The [child] is optional but is good practice to use if part of the widget
-  /// subtree does not depend on the value of the [valueListenable].
   const Listen(
     this.valueListenable,
     this.builder, {
@@ -140,33 +135,29 @@ class Listen<T> extends StatefulWidget {
     this.child,
   }) : super(key: key);
 
-  /// The [ValueListenable] whose value you depend on in order to build.
-  ///
-  /// This widget does not ensure that the [ValueListenable]'s value is not
-  /// null, therefore your [builder] may need to handle null values.
-  ///
-  /// This [ValueListenable] itself must not be null.
   final FChangeNotifier valueListenable;
-
-  /// A [ValueWidgetBuilder] which builds a widget depending on the
-  /// [valueListenable]'s value.
-  ///
-  /// Can incorporate a [valueListenable] value-independent widget subtree
-  /// from the [child] parameter into the returned widget tree.
-  ///
-  /// Must not be null.
   final ValueWidgetBuilder builder;
-
-  /// A [valueListenable]-independent widget which is passed back to the [builder].
-  ///
-  /// This argument is optional and can be null if the entire widget subtree
-  /// the [builder] builds depends on the value of the [valueListenable]. For
-  /// example, if the [valueListenable] is a [String] and the [builder] simply
-  /// returns a [Text] widget with the [String] value.
   final Widget? child;
 
   @override
   State<StatefulWidget> createState() => _ValueListenableBuilderState<T>();
+}
+
+class Watch<T extends FChangeNotifier?> extends FListenableProvider<T> {
+  Watch(
+    T frac,
+    TransitionBuilder builder, {
+    super.key,
+    Widget? child,
+  }) : super.value(
+          builder: builder,
+          value: frac,
+          child: child,
+        );
+
+  static void _dispose(BuildContext context, FChangeNotifier? notifier) {
+    notifier?.dispose();
+  }
 }
 
 class _ValueListenableBuilderState<T> extends State<Listen<T>> {
@@ -204,23 +195,6 @@ class _ValueListenableBuilderState<T> extends State<Listen<T>> {
   @override
   Widget build(BuildContext context) {
     return widget.builder(context, widget.child);
-  }
-}
-
-class Watch<T extends FChangeNotifier?> extends FListenableProvider<T> {
-  Watch(
-    T value,
-    TransitionBuilder? builder, {
-    super.key,
-    Widget? child,
-  }) : super.value(
-          builder: builder,
-          value: value,
-          child: child,
-        );
-
-  static void _dispose(BuildContext context, FChangeNotifier? notifier) {
-    notifier?.dispose();
   }
 }
 

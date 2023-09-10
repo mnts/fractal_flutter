@@ -34,8 +34,8 @@ dependencies:
     path: '../frac'
   fractal:
     path: '../fractal'
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  fractal_base:
+    path: '../fractal_base'
   cupertino_icons: ^1.0.2
   provider: ^6.0.5
   nested: ^1.0.0
@@ -46,6 +46,8 @@ dependencies:
   path_provider: ^2.1.0
   universal_io: ^2.2.2
   universal_file: ^1.0.0
+  restart_app: ^1.2.1
+  color: ^3.0.0
 
 dev_dependencies:
   flutter_test:
