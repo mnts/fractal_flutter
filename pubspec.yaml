@@ -34,6 +34,8 @@ dependencies:
     path: '../frac'
   fractal:
     path: '../fractal'
+  signed_fractal:
+    path: '../signed_fractal'
   fractal_base:
     path: '../fractal_base'
   cupertino_icons: ^1.0.2

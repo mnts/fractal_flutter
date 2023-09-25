@@ -5,8 +5,12 @@ import 'package:signed_fractal/models/event.dart';
 class FractalMovable extends StatefulWidget {
   final Widget child;
   final EventFractal? event;
+  final double maxWidth;
+  final double maxHeight;
   const FractalMovable({
     super.key,
+    this.maxWidth = 300,
+    this.maxHeight = 300,
     required this.event,
     required this.child,
   });
@@ -35,9 +39,19 @@ class _FractalMovableState extends State<FractalMovable> {
       affinity: Axis.horizontal,
       ignoringFeedbackSemantics: true,
       feedback: Material(
-        child: feedback,
+        color: Colors.transparent,
+        child: Opacity(
+          opacity: 0.8,
+          child: Container(
+            constraints: BoxConstraints(
+              maxWidth: widget.maxWidth,
+              maxHeight: widget.maxHeight,
+            ),
+            child: child,
+          ),
+        ),
       ),
-      child: child,
+      child: widget.child,
       onDragUpdate: (d) {
         return;
         if (active) {
@@ -65,29 +79,6 @@ class _FractalMovableState extends State<FractalMovable> {
             bottom: 4,
           ),
           child: widget.child,
-        ),
-      );
-
-  Widget get feedback => Container(
-        width: 300,
-        child: Visibility(
-          visible: true, //hPad > 16,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.event?.content ?? '',
-                //style: TextStyle(color: Colors.red),
-              ),
-              if (widget.event?.file != null)
-                FractalMovable(
-                  event: widget.event,
-                  child: FractalImage(
-                    widget.event!.file!,
-                  ),
-                ),
-            ],
-          ),
         ),
       );
 }

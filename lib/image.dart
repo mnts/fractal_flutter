@@ -8,8 +8,11 @@ import 'package:url_launcher/url_launcher.dart';
 
 class FractalImage extends StatefulWidget {
   final FileF file;
+  final BoxFit fit;
+
   const FractalImage(
     this.file, {
+    this.fit = BoxFit.contain,
     super.key,
   });
 
@@ -53,7 +56,7 @@ class FractalImage extends StatefulWidget {
     }
     */
 
-  static Future<FileF?> pick() async {
+  static Future<ImageF?> pick() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.image,
       withData: true,
@@ -63,7 +66,7 @@ class FractalImage extends StatefulWidget {
     if (bytes == null) return null;
     //result?.files.first.
 
-    return FileF.bytes(bytes);
+    return ImageF.bytes(bytes);
 
     //final hash = await FData.publish(bytes);
 
@@ -75,10 +78,19 @@ class FractalImage extends StatefulWidget {
 class _FractalImageState extends State<FractalImage> {
   Image? image;
 
+  @override
+  void initState() {
+    super.initState();
+    initImage();
+  }
+
   initImage() async {
-    setState(() async {
-      final bytes = await widget.file.load();
-      image = Image.memory(bytes);
+    final bytes = await widget.file.load();
+    setState(() {
+      image = Image.memory(
+        bytes,
+        fit: BoxFit.cover,
+      );
     });
   }
 
@@ -92,11 +104,6 @@ class _FractalImageState extends State<FractalImage> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onSecondaryTap: openFile,
-      onLongPress: openFile,
-      onTap: openFile,
-      child: image ?? const CircularProgressIndicator(),
-    );
+    return image ?? const CircularProgressIndicator();
   }
 }

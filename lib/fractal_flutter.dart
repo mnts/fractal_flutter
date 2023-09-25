@@ -131,9 +131,9 @@ class Listen<T> extends StatefulWidget {
   const Listen(
     this.valueListenable,
     this.builder, {
-    Key? key,
+    super.key,
     this.child,
-  }) : super(key: key);
+  });
 
   final FChangeNotifier valueListenable;
   final ValueWidgetBuilder builder;
@@ -250,9 +250,14 @@ class Provide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FChangeNotifierProvider.value(
-      value: value,
-      builder: builder,
+    return Watch(
+      value,
+      (ctx, child) => Builder(
+        builder: (context) => Listen(
+          value,
+          (builder),
+        ),
+      ),
     );
   }
 }

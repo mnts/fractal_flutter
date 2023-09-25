@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart' as Material;
+import 'package:flutter/material.dart' as material;
 import 'package:color/color.dart';
 
 extension ColorExt on Color {
-  Material.Color get toMaterial => Material.Color(hashCode);
+  material.Color get toMaterial => material.Color(hashCode);
 }
 
-extension ColorMExt on Material.Color {
+extension ColorMExt on material.Color {
   Color get fromMaterial => Color.hex(hashCode.toString());
 }
