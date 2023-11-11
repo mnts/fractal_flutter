@@ -10,6 +10,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:universal_io/io.dart';
 export 'providers/multi.dart';
+export 'index.dart';
 
 class FractalFlutter {
   static Future<bool> init() async {
@@ -135,7 +136,7 @@ class Listen<T> extends StatefulWidget {
     this.child,
   });
 
-  final FChangeNotifier valueListenable;
+  final FListenable valueListenable;
   final ValueWidgetBuilder builder;
   final Widget? child;
 
@@ -143,7 +144,7 @@ class Listen<T> extends StatefulWidget {
   State<StatefulWidget> createState() => _ValueListenableBuilderState<T>();
 }
 
-class Watch<T extends FChangeNotifier?> extends FListenableProvider<T> {
+class Watch<T extends FListenable?> extends FListenableProvider<T> {
   Watch(
     T frac,
     TransitionBuilder builder, {

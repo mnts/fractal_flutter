@@ -12,7 +12,7 @@ class FractalImage extends StatefulWidget {
 
   const FractalImage(
     this.file, {
-    this.fit = BoxFit.contain,
+    this.fit = BoxFit.fitHeight,
     super.key,
   });
 
@@ -89,7 +89,7 @@ class _FractalImageState extends State<FractalImage> {
     setState(() {
       image = Image.memory(
         bytes,
-        fit: BoxFit.cover,
+        fit: widget.fit,
       );
     });
   }

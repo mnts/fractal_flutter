@@ -50,6 +50,7 @@ dependencies:
   universal_file: ^1.0.0
   restart_app: ^1.2.1
   color: ^3.0.0
+  dartlin: ^0.6.3
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:fractal_flutter/index.dart';
 import 'package:signed_fractal/models/event.dart';
@@ -24,14 +26,32 @@ class FSortable<T extends EventFractal> extends StatelessWidget {
   Widget build(BuildContext context) {
     //context.read<SortedFrac>();
 
+    Timer? timer;
+
+    order(T f, int i) {
+      timer?.cancel();
+      timer = Timer(
+        const Duration(milliseconds: 300),
+        () {
+          sorted.order(f, i);
+          cb?.call();
+        },
+      );
+    }
+
     return Listen(
       sorted,
       (context, child) => DragTarget<T>(
-        onWillAccept: (ev) {
-          if (ev == null) return false;
+        onWillAccept: (f) {
+          if (f == null) return false;
           if (sorted.length > 0) return true;
-          sorted.order(ev, 0);
+          order(f, 0);
           return true;
+        },
+        onLeave: (f) {
+          if (f == null) return;
+          sorted.remove(f);
+          cb?.call();
         },
         onAccept: (ev) {
           cb?.call();
@@ -40,21 +60,23 @@ class FSortable<T extends EventFractal> extends StatelessWidget {
             ? ListView.builder(
                 itemCount: sorted.value.length,
                 reverse: reverse,
+                shrinkWrap: true,
+                physics: const ClampingScrollPhysics(),
                 //shrinkWrap: false,
                 scrollDirection: horizontal ? Axis.horizontal : Axis.vertical,
                 padding: const EdgeInsets.only(
-                  bottom: 50,
+                  //top: 56,
                   left: 1,
                 ),
                 itemBuilder: (context, i) => DragTarget<T>(
-                  onWillAccept: (ev) {
-                    if (ev == null) return false;
-                    sorted.order(ev, i);
-
+                  onWillAccept: (f) {
+                    if (f == null) return false;
+                    order(f, i);
                     return true;
                   },
-                  onAccept: (ev) {
-                    cb?.call();
+                  onAccept: (ev) {},
+                  onLeave: (ev) {
+                    timer?.cancel();
                   },
                   builder: (
                     context,
@@ -66,7 +88,9 @@ class FSortable<T extends EventFractal> extends StatelessWidget {
                   ),
                 ),
               )
-            : Container(),
+            : Container(
+                height: 30,
+              ),
       ),
     );
   }

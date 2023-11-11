@@ -71,14 +71,6 @@ class _FractalMovableState extends State<FractalMovable> {
 
   Widget get child => Visibility(
         visible: !hide,
-        child: Container(
-          padding: EdgeInsets.only(
-            left: hPad > 0 ? hPad : 0,
-            right: hPad < 0 ? -hPad : 0,
-            top: 4,
-            bottom: 4,
-          ),
-          child: widget.child,
-        ),
+        child: widget.child,
       );
 }

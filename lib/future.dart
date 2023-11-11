@@ -11,6 +11,8 @@ class FractalFuture<T extends Fractal> extends StatefulWidget {
     super.key,
   });
 
+  Widget build(Fractal fractal) => builder(fractal as T);
+
   @override
   State<FractalFuture> createState() => _FractalFutureState();
 }
@@ -20,18 +22,25 @@ class _FractalFutureState extends State<FractalFuture> {
 
   @override
   void initState() {
-    widget.future.then((value) {
-      setState(() {
-        fractal = value;
-      });
-    });
+    wait();
     super.initState();
+  }
+
+  complete(value) {
+    setState(() {
+      fractal = value;
+    });
+  }
+
+  wait() async {
+    final res = await widget.future;
+    complete(res);
   }
 
   @override
   Widget build(context) {
     return fractal == null
-        ? CupertinoActivityIndicator()
-        : widget.builder(fractal!);
+        ? const CupertinoActivityIndicator()
+        : widget.build(fractal!);
   }
 }
