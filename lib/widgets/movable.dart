@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frac/index.dart';
 import 'package:fractal_flutter/image.dart';
 import 'package:signed_fractal/models/event.dart';
 
@@ -7,8 +8,12 @@ class FractalMovable extends StatefulWidget {
   final EventFractal? event;
   final double maxWidth;
   final double maxHeight;
+  final void Function()? onDragStart;
+  final void Function()? onDragEnd;
   const FractalMovable({
     super.key,
+    this.onDragStart,
+    this.onDragEnd,
     this.maxWidth = 300,
     this.maxHeight = 300,
     required this.event,
@@ -52,6 +57,9 @@ class _FractalMovableState extends State<FractalMovable> {
         ),
       ),
       child: widget.child,
+      onDragStarted: () {
+        widget.onDragStart?.call();
+      },
       onDragUpdate: (d) {
         return;
         if (active) {
@@ -61,10 +69,11 @@ class _FractalMovableState extends State<FractalMovable> {
           });
         }
       },
+      onDraggableCanceled: (v, d) {
+        //widget.onDragEnd?.call();
+      },
       onDragEnd: (d) {
-        setState(() {
-          hPad = 0;
-        });
+        widget.onDragEnd?.call();
       },
     );
   }

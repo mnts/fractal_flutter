@@ -19,7 +19,7 @@ class _FScreenState extends State<FScreen> {
         ? app.skin.color.withAlpha(widget.alpha)
         : Colors.transparent;
     */
-    const double toolbarHeight = 54;
+    const double toolbarHeight = 56;
 
     final scheme = Theme.of(context).colorScheme;
 
@@ -32,7 +32,7 @@ class _FScreenState extends State<FScreen> {
         Hero(
           tag: 'fScreen',
           child: Container(
-            color: (widget.alpha == 0) ? null : color,
+            //color: (widget.alpha == 0) ? null : color,
             height: toolbarHeight,
           ),
         ),

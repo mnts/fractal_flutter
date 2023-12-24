@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fractal/lib.dart';
 import 'package:fractal/types/file.dart';
 import 'package:fractal/types/image.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FractalImage extends StatefulWidget {
@@ -80,8 +81,14 @@ class _FractalImageState extends State<FractalImage> {
 
   @override
   void initState() {
-    super.initState();
     initImage();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    //image.
+    super.dispose();
   }
 
   initImage() async {
