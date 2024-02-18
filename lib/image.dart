@@ -91,13 +91,14 @@ class _FractalImageState extends State<FractalImage> {
     super.dispose();
   }
 
-  initImage() async {
-    final bytes = await widget.file.load();
-    setState(() {
-      image = Image.memory(
-        bytes,
-        fit: widget.fit,
-      );
+  initImage() {
+    widget.file.load().then((bytes) {
+      setState(() {
+        image = Image.memory(
+          bytes,
+          fit: widget.fit,
+        );
+      });
     });
   }
 

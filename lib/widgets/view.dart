@@ -9,9 +9,11 @@ class FractalView extends StatefulWidget {
   final List<Widget> children;
 
   static double gridWidth = 640;
+  final double? width;
 
   const FractalView({
     super.key,
+    this.width,
     this.reverse = false,
     this.shrinkWrap = false,
     this.physics,
@@ -31,7 +33,8 @@ class _FractalViewState extends State<FractalView> {
 
     return LayoutBuilder(builder: (context, constraints) {
       maxWidth = constraints.maxWidth;
-      return constraints.maxWidth > FractalView.gridWidth
+      return widget.width != null ||
+              constraints.maxWidth > FractalView.gridWidth
           ? grid()
           : ListView(
               reverse: widget.reverse,
@@ -57,7 +60,7 @@ class _FractalViewState extends State<FractalView> {
 
   SliverGridDelegate get gridDelegate =>
       SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: maxWidth ~/ FractalView.gridWidth ~/ 0.7,
+        crossAxisCount: 4, //maxWidth ~/ FractalView.gridWidth ~/ 0.4,
         childAspectRatio: 1,
         crossAxisSpacing: 2.0,
         mainAxisSpacing: 2.0,

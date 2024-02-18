@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:frac/index.dart';
+import 'package:fractal/lib.dart';
 import 'package:fractal_flutter/image.dart';
 import 'package:signed_fractal/models/event.dart';
 
 class FractalMovable extends StatefulWidget {
   final Widget child;
-  final EventFractal? event;
+  final Fractal? event;
   final double maxWidth;
   final double maxHeight;
   final void Function()? onDragStart;
@@ -39,7 +40,7 @@ class _FractalMovableState extends State<FractalMovable> {
 
   @override
   Widget build(BuildContext context) {
-    return Draggable<EventFractal>(
+    return Draggable<Fractal>(
       data: widget.event,
       affinity: Axis.horizontal,
       ignoringFeedbackSemantics: true,
