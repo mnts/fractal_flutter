@@ -59,7 +59,7 @@ class _FractalViewState extends State<FractalView> {
   double maxWidth = 0;
 
   SliverGridDelegate get gridDelegate =>
-      SliverGridDelegateWithFixedCrossAxisCount(
+      const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4, //maxWidth ~/ FractalView.gridWidth ~/ 0.4,
         childAspectRatio: 1,
         crossAxisSpacing: 2.0,
