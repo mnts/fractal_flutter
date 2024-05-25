@@ -1,0 +1,1 @@
+export 'thing.dart';

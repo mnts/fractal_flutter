@@ -93,12 +93,14 @@ class _FractalImageState extends State<FractalImage> {
 
   initImage() {
     widget.file.load().then((bytes) {
-      setState(() {
-        image = Image.memory(
-          bytes,
-          fit: widget.fit,
-        );
-      });
+      try {
+        setState(() {
+          image = Image.memory(
+            bytes,
+            fit: widget.fit,
+          );
+        });
+      } catch (_) {}
     });
   }
 

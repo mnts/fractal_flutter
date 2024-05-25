@@ -5,4 +5,5 @@ export 'main.dart';
 export 'provider.dart';
 export 'widgets/index.dart';
 export 'screens/index.dart';
+export 'areas/index.dart';
 export 'extensions/index.dart';

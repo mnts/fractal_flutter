@@ -1,8 +1,8 @@
-import 'package:app_fractal/index.dart';
+import 'package:app_fractal/app.dart';
 import 'package:flutter/material.dart';
 import 'package:fractal_base/fractals/device.dart';
-import 'package:fractal_socket/index.dart';
-import 'package:signed_fractal/signed_fractal.dart';
+import 'package:fractal_socket/client.dart';
+import 'package:signed_fractal/models/network.dart';
 
 class FractalApp extends StatefulWidget {
   final Widget child;
@@ -19,16 +19,19 @@ class _FractalAppState extends State<FractalApp> {
       from: DeviceFractal.my,
       to: NetworkFractal.active,
     );
-    AppFractal.main.synch();
-    AppFractal.active.events?.synch();
 
-    /*
-    ClientFractal.main!.establish().then((a) async {
-      AppFractal.main.synch();
+    AppFractal.main.synch();
+
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => prepare());
+  }
+
+  prepare() {
+    ClientFractal.main?.establish().then((a) async {
       AppFractal.active.events?.synch();
     });
-    */
-    super.initState();
+    AppFractal.main.preload();
   }
 
   @override
