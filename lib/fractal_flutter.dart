@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:app_fractal/index.dart';
 import 'package:flutter/material.dart';
 import 'package:frac/frac.dart';
 import 'package:fractal/lib.dart';
@@ -134,8 +135,10 @@ class Listen<T> extends StatefulWidget {
     this.builder, {
     super.key,
     this.child,
+    this.preload = '',
   });
 
+  final String preload;
   final FListenable valueListenable;
   final ValueWidgetBuilder builder;
   final Widget? child;
@@ -166,6 +169,12 @@ class _ValueListenableBuilderState<T> extends State<Listen<T>> {
 
   @override
   void initState() {
+    if (widget.preload.isNotEmpty) {
+      if (widget.valueListenable case EventFractal event) {
+        event.preload(widget.preload);
+      }
+    }
+
     super.initState();
     //value = widget.valueListenable.value;
     widget.valueListenable.addListener(_valueChanged);

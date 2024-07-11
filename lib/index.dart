@@ -2,6 +2,7 @@ export 'fractal_flutter.dart';
 export 'future.dart';
 export 'image.dart';
 export 'main.dart';
+export 'app.dart';
 export 'provider.dart';
 export 'widgets/index.dart';
 export 'screens/index.dart';

@@ -1,4 +1,5 @@
 import 'package:app_fractal/app.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fractal_base/fractals/device.dart';
 import 'package:fractal_socket/client.dart';
@@ -20,22 +21,30 @@ class _FractalAppState extends State<FractalApp> {
       to: NetworkFractal.active,
     );
 
-    AppFractal.main.synch();
+    //AppFractal.main.synch();
 
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => prepare());
+    //WidgetsBinding.instance.addPostFrameCallback((_) => prepare());
   }
 
+  late final connecting = ClientFractal.main!.establish();
+
+  /*
   prepare() {
-    ClientFractal.main?.establish().then((a) async {
+    .then((a) async {
       AppFractal.active.events?.synch();
     });
-    AppFractal.main.preload();
+    AppFractal.active.preload();
   }
+  */
 
   @override
   Widget build(BuildContext context) {
-    return widget.child;
+    return FutureBuilder(
+      future: connecting,
+      builder: (ctx, snap) =>
+          snap.data == null ? const CupertinoActivityIndicator() : widget.child,
+    );
   }
 }
