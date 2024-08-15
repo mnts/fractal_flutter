@@ -1,19 +1,21 @@
-import 'package:app_fractal/app.dart';
+import 'package:app_fractal/index.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:fractal_base/fractals/device.dart';
 import 'package:fractal_socket/client.dart';
 import 'package:signed_fractal/models/network.dart';
+import 'package:signed_fractal/sys.dart';
 
-class FractalApp extends StatefulWidget {
+import 'fractal_flutter.dart';
+
+class FractalSystem extends StatefulWidget {
   final Widget child;
-  const FractalApp({super.key, required this.child});
+  const FractalSystem({super.key, required this.child});
 
   @override
-  State<FractalApp> createState() => _FractalAppState();
+  State<FractalSystem> createState() => _FractalAppState();
 }
 
-class _FractalAppState extends State<FractalApp> {
+class _FractalAppState extends State<FractalSystem> {
   @override
   void initState() {
     ClientFractal.main = ClientFractal(
@@ -22,6 +24,7 @@ class _FractalAppState extends State<FractalApp> {
     );
 
     //AppFractal.main.synch();
+    FSys.setup();
 
     super.initState();
 
@@ -43,8 +46,12 @@ class _FractalAppState extends State<FractalApp> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: connecting,
-      builder: (ctx, snap) =>
-          snap.data == null ? const CupertinoActivityIndicator() : widget.child,
+      builder: (ctx, snap) => snap.data == null
+          ? const CupertinoActivityIndicator()
+          : Listen(
+              ClientFractal.main!.active,
+              (ctx, ch) => widget.child,
+            ),
     );
   }
 }

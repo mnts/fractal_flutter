@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fractal_base/db.dart';
-import 'package:restart_app/restart_app.dart';
 
 class WipeButton extends StatefulWidget {
   const WipeButton({super.key});
@@ -26,7 +25,7 @@ class _WipeButtonState extends State<WipeButton> {
           ),
         );
         Timer(const Duration(seconds: 1), () {
-          Restart.restartApp();
+          //Restart.restartApp();
         });
       },
       tooltip: 'Wipe local data',

@@ -47,14 +47,14 @@ dependencies:
   nested: ^1.0.0
   url_launcher: ^6.1.12
   crypto: ^3.0.3
-  file_picker: ^6.1.1
+  file_picker: ^8.0.7
   http: ^1.1.0
   path_provider: ^2.1.0
   universal_io: ^2.2.2
   universal_file: ^1.0.0
-  restart_app: ^1.2.1
   color: ^3.0.0
   dartlin: ^0.6.3
+  image: ^4.2.0
 
 dev_dependencies:
   flutter_test:
@@ -65,7 +65,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^4.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

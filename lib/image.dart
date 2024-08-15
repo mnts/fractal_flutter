@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fractal/lib.dart';
@@ -6,6 +7,7 @@ import 'package:fractal/types/file.dart';
 import 'package:fractal/types/image.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:image/image.dart' as Img;
 
 class FractalImage extends StatefulWidget {
   final FileF file;
@@ -57,6 +59,16 @@ class FractalImage extends StatefulWidget {
     }
     */
 
+  static Future<ImageF> rotate(FileF file, [num deg = 90]) async {
+    final b = await file.load();
+
+    final srcImg = Img.decodeImage(b)!;
+
+    final newImg = Img.copyRotate(srcImg, angle: deg);
+    final newB = Img.encodeJpg(newImg);
+    return ImageF.bytes(newB);
+  }
+
   static Future<ImageF?> pick() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.image,
@@ -81,7 +93,6 @@ class _FractalImageState extends State<FractalImage> {
 
   @override
   void initState() {
-    initImage();
     super.initState();
   }
 
@@ -91,17 +102,13 @@ class _FractalImageState extends State<FractalImage> {
     super.dispose();
   }
 
-  initImage() {
-    widget.file.load().then((bytes) {
-      try {
-        setState(() {
-          image = Image.memory(
-            bytes,
-            fit: widget.fit,
-          );
-        });
-      } catch (_) {}
-    });
+  Future<Image> get img async {
+    if (image != null) return image!;
+    final bytes = await widget.file.load();
+    return image = Image.memory(
+      bytes,
+      fit: widget.fit,
+    );
   }
 
   openFile() {
@@ -114,6 +121,9 @@ class _FractalImageState extends State<FractalImage> {
 
   @override
   Widget build(BuildContext context) {
-    return image ?? const CircularProgressIndicator();
+    return FutureBuilder(
+      future: img,
+      builder: (ctx, snap) => snap.data ?? const CircularProgressIndicator(),
+    );
   }
 }
