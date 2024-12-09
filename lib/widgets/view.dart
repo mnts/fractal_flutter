@@ -46,8 +46,8 @@ class _FractalViewState extends State<FractalView> {
                 ...widget.children.map(
                   (c) => ConstrainedBox(
                     constraints: const BoxConstraints(
-                      maxHeight: 60,
-                    ),
+                        //maxHeight: 60,
+                        ),
                     child: c,
                   ),
                 ),

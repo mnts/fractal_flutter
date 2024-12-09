@@ -11,6 +11,9 @@ class FractalMovable extends StatefulWidget {
   final double maxHeight;
   final void Function()? onDragStart;
   final void Function()? onDragEnd;
+
+  static final doing = Frac<bool>(false);
+
   const FractalMovable({
     super.key,
     this.onDragStart,
@@ -59,6 +62,7 @@ class _FractalMovableState extends State<FractalMovable> {
       ),
       child: widget.child,
       onDragStarted: () {
+        FractalMovable.doing.value = true;
         widget.onDragStart?.call();
       },
       onDragUpdate: (d) {
@@ -74,6 +78,7 @@ class _FractalMovableState extends State<FractalMovable> {
         //widget.onDragEnd?.call();
       },
       onDragEnd: (d) {
+        FractalMovable.doing.value = false;
         widget.onDragEnd?.call();
       },
     );
