@@ -60,9 +60,9 @@ class FractalImage extends StatefulWidget {
     */
 
   static Future<ImageF> rotate(FileF file, [num deg = 90]) async {
-    final b = await file.load();
+    await file.load();
 
-    final srcImg = Img.decodeImage(b)!;
+    final srcImg = Img.decodeImage(file.bytes)!;
 
     final newImg = Img.copyRotate(srcImg, angle: deg);
     final newB = Img.encodeJpg(newImg);
@@ -79,7 +79,7 @@ class FractalImage extends StatefulWidget {
     if (bytes == null) return null;
     //result?.files.first.
 
-    return ImageF.bytes(bytes);
+    return ImageF.bytes(bytes)..fileName = result!.files[0].name;
 
     //final hash = await FData.publish(bytes);
 
@@ -104,9 +104,9 @@ class _FractalImageState extends State<FractalImage> {
 
   Future<Image> get img async {
     if (image != null) return image!;
-    final bytes = await widget.file.load();
+    await widget.file.load();
     return image = Image.memory(
-      bytes,
+      widget.file.bytes,
       fit: widget.fit,
     );
   }
@@ -123,7 +123,9 @@ class _FractalImageState extends State<FractalImage> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: img,
-      builder: (ctx, snap) => snap.data ?? const CircularProgressIndicator(),
+      builder: (ctx, snap) {
+        return snap.data ?? const CircularProgressIndicator();
+      },
     );
   }
 }

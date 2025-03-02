@@ -169,11 +169,11 @@ class _ValueListenableBuilderState<T> extends State<Listen<T>> {
 
   @override
   void initState() {
-    if (widget.preload.isNotEmpty) {
-      if (widget.valueListenable case EventFractal event) {
-        event.preload(widget.preload);
-      }
+    //if (widget.preload.isNotEmpty) {
+    if (widget.valueListenable case EventFractal event) {
+      event.preload(widget.preload);
     }
+    //}
 
     super.initState();
     //value = widget.valueListenable.value;
@@ -247,9 +247,9 @@ class FChangeNotifierProvider<T extends FChangeNotifier?>
   }
 }
 
-class Provide extends StatelessWidget {
+class Provide<T extends FChangeNotifier> extends StatelessWidget {
   final TransitionBuilder builder;
-  final FChangeNotifier value;
+  final T value;
   final Widget? child;
   const Provide(
     this.value,
@@ -260,7 +260,7 @@ class Provide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Watch(
+    return Watch<T>(
       value,
       (ctx, child) => Builder(
         builder: (context) => Listen(
